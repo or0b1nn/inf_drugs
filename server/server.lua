@@ -46,4 +46,35 @@ AddEventHandler('drug:process', function(drug)
     end
 
 end)
+
+RegisterServerEvent('drug:sell')
+AddEventHandler('drug:sell', function(drug)
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if xPlayer then
+        local processItem = Config.Drugs[drug].processItem
+
+        local quantityToSell = Config.Drugs[drug].quantityToSell
+        local sellValue = Config.Drugs[drug].sellValue
+
+        if inventory:GetItemTotalAmount(source, processItem) < quantityToSell then
+            TriggerClientEvent('okokNotify:Alert', source, 'DROGAS', 'Você não tem a quantidade necessária para vender!', 5000, 'error', true)
+        else
+
+            local dirtyMoney = Config.DirtyMoney
+
+            if inventory:CanCarryItem(source, dirtyMoney, sellValue) then
+                inventory:RemoveItem(source, processItem, quantityToSell)
+                inventory:AddItem(source, dirtyMoney, sellValue)
+
+                TriggerClientEvent('okokNotify:Alert', source, 'DROGAS', 'Você vendeu ' .. inventory:GetItemLabel(processItem), 5000, 'success', false)
+            else
+                TriggerClientEvent('okokNotify:Alert', source, 'DROGAS', 'Você não tem espaço suficiente! ', 5000, 'error', false)
+            end
+
+        end
+
+    end
+
+end)
   

@@ -67,4 +67,52 @@ for drug, data in pairs(Config.Drugs) do
         })
         
     end
+
+    for _, sellPedLocation in pairs(data.sellPedLocation) do
+
+        local pedModel = `a_m_m_tramp_01`
+
+        RequestModel(pedModel)
+
+        while not HasModelLoaded(pedModel) do
+            Wait(10)
+        end
+
+        local ped = CreatePed(4, pedModel, sellPedLocation.x, sellPedLocation.y, sellPedLocation.z - 1.0, sellPedLocation.w, false, true)
+        
+        SetEntityInvincible(ped, true)
+        FreezeEntityPosition(ped, true)
+        SetBlockingOfNonTemporaryEvents(ped, true)
+
+        ox_target:addLocalEntity(ped, {
+
+            name = 'ped_interact',
+            label = 'Vender ' .. data.processItemLabel,
+            icon = 'fa-solid fa-handshake',
+            onSelect = function()
+
+                lib.progressCircle({
+                    duration = 5000,
+                    position = 'bottom',
+                    label = 'Vendendo ' .. data.processItemLabel,
+                    seWhileDead = false,
+                    canCancel = false,
+                    disable = {
+                        move = true,
+                        combat = true
+                    },
+                    anim = {
+                        dict = "mp_common",
+                        clip = "givetake1_a",
+                    },
+                })
+
+                TriggerServerEvent('drug:sell', drug)
+
+            end
+
+        })
+
+    end
+
 end
