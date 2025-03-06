@@ -1,3 +1,6 @@
+local ox_target = exports.ox_target
+local ox_lib = exports.ox_lib
+
 for drug, data in pairs(Config.Drugs) do
 
     for _, collectLocation in pairs(data.collectLocations) do

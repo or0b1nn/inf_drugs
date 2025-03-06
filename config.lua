@@ -14,7 +14,7 @@ Config.Drugs = {
         collectItem = 'weed',
         processItem = 'weed_packaged',
         collectItemLabel = 'Erva',
-        processItemLabel = 'Erva'
+        processItemLabel = 'Erva',
         minToProcess = 5,
     },
 
