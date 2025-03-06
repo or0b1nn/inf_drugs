@@ -2,6 +2,22 @@ Config = {}
 
 Config.DirtyMoney = 'black_money'
 
+Config.MoneyWash = {
+    
+    vanila = {
+        job = 'vanila',
+        minToClean = 5,
+        location = vector3(21.9828, -1710.5082, 29.2944),
+    },
+
+    tequila = {
+        job = 'tequila',
+        minToClean = 5,
+        location = vector3(21.9828, -1710.5082, 29.2944),
+    },
+
+}
+
 Config.Drugs = {
 
     coke = {

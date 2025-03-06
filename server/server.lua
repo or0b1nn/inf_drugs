@@ -2,6 +2,31 @@ ESX = exports['es_extended']:getSharedObject()
 
 local inventory = exports["qs-inventory"]
 
+RegisterServerEvent('drug:moneyWash')
+AddEventHandler('drug:moneyWash', function(moneyWash)
+    local xPlayer = ESX.GetPlayerFromId(source)
+
+    if xPlayer then
+
+        local dirtyMoney = Config.DirtyMoney
+
+        local minToClean = Config.MoneyWash[moneyWash].minToClean
+
+        if inventory:GetItemTotalAmount(source, dirtyMoney) < minToClean then
+            TriggerClientEvent('okokNotify:Alert', source, 'LAVAGEM', 'Você não tem a quantidade necessária para lavar!', 5000, 'error', true)
+        else
+            inventory:RemoveItem(source, dirtyMoney, minToClean)
+            inventory:AddItem(source, 'money', minToClean)
+
+            TriggerClientEvent('okokNotify:Alert', source, 'LAVAGEM', 'Você lavou ' .. minToClean ' de dinheiro sujo' , 5000, 'success', false)
+
+        end
+
+    end
+
+end
+)
+
 RegisterServerEvent('drug:collect')
 AddEventHandler('drug:collect', function(drug)
     local xPlayer = ESX.GetPlayerFromId(source)

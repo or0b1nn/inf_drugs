@@ -1,5 +1,48 @@
+ESX = exports["es_extended"]:getSharedObject()
+
 local ox_target = exports.ox_target
 local ox_lib = exports.ox_lib
+
+for moneyWash, data in pairs(Config.MoneyWash) do
+
+    local job = data.job
+
+    ox_target:addSphereZone({
+        coords = data.location,
+        radius = 1.5,
+        options = {
+            label = 'Lavar Dinheiro Sujo',
+            onSelect = function()
+
+                if ESX.GetPlayerData().job.name ~= job then
+                    exports['okokNotify']:Alert('LAVAGEM', 'Não tens permissão para usar isso!', 5000, 'error', true)   
+                    
+                    return
+                end
+
+                lib.progressCircle({
+                    duration = 5000,
+                    position = 'bottom',
+                    label = 'Lavando dinheiro sujo',
+                    useWhileDead = false,
+                    canCancel = false,
+                    disable = {
+                        move = true,
+                        combat = true
+                    },
+                    anim = {
+                        dict = "amb@prop_human_bum_bin@idle_a",
+                        clip = "idle_a",
+                     },
+                })
+
+                TriggerServerEvent('drug:moneyWash', moneyWash)
+
+            end 
+        }
+    })
+
+end
 
 for drug, data in pairs(Config.Drugs) do
 
@@ -24,7 +67,7 @@ for drug, data in pairs(Config.Drugs) do
                         },
                         anim = {
                            dict = "amb@prop_human_bum_bin@idle_a",
-                            clip = "idle_a",
+                           clip = "idle_a",
                         },
                      })
 
